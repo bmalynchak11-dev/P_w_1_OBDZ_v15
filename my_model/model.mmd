@@ -1,5 +1,49 @@
 erDiagram
-    %% Замініть цей приклад власною моделлю вашої предметної області (розділ 6 завдання).
-    EXAMPLE {
+    FACULTY {
         int id PK
+        string title
     }
+    TEACHER {
+        int id PK
+        int faculty_id FK
+        string full_name
+    }
+    STUDY_GROUP {
+        int id PK
+        int faculty_id FK
+        int teacher_id FK
+        string group_code
+    }
+    STUDENT {
+        int id PK
+        int study_group_id FK
+        string full_name
+        string record_book_num
+    }
+    COURSE {
+        int id PK
+        string course_name
+        int credits_count
+    }
+    LESSON {
+        int id PK
+        int course_id FK
+        int teacher_id FK
+        int study_group_id FK
+        string room
+    }
+    ATTENDANCE {
+        int lesson_id PK, FK
+        int student_id PK, FK
+        string status
+    }
+
+    FACULTY ||--o{ TEACHER : "має у штаті"
+    FACULTY ||--o{ STUDY_GROUP : "організовує"
+    TEACHER |o--o{ STUDY_GROUP : "є куратором"
+    STUDY_GROUP ||--|{ STUDENT : "складається з"
+    COURSE ||--o{ LESSON : "включає"
+    TEACHER ||--o{ LESSON : "проводить"
+    STUDY_GROUP ||--o{ LESSON : "відвідує"
+    LESSON ||--|{ ATTENDANCE : "фіксує"
+    STUDENT ||--|{ ATTENDANCE : "відмічається"

@@ -1,0 +1,44 @@
+erDiagram
+    ACCOUNT_USER {
+        int id PK
+        string email
+        string display_name
+    }
+    FINANCIAL_ACCOUNT {
+        int id PK
+        int account_user_id FK
+        string title
+        string currency
+    }
+    EXPENSE_CATEGORY {
+        int id PK
+        int account_user_id FK
+        string category_name
+        string category_type
+    }
+    FINANCIAL_TRANSACTION {
+        int id PK
+        int financial_account_id FK
+        int expense_category_id FK
+        string transaction_date
+        int total_amount
+    }
+    TRANSACTION_ITEM {
+        int financial_transaction_id PK, FK
+        int line_item_id PK
+        string item_name
+        int amount
+    }
+    BUDGET_LIMIT {
+        int id PK
+        int expense_category_id FK
+        int target_sum
+        string period_month
+    }
+
+    ACCOUNT_USER ||--o{ FINANCIAL_ACCOUNT : "володіє"
+    ACCOUNT_USER ||--o{ EXPENSE_CATEGORY : "налаштовує"
+    FINANCIAL_ACCOUNT ||--o{ FINANCIAL_TRANSACTION : "проводить"
+    EXPENSE_CATEGORY ||--o{ FINANCIAL_TRANSACTION : "класифікує"
+    FINANCIAL_TRANSACTION ||--|{ TRANSACTION_ITEM : "містить"
+    EXPENSE_CATEGORY |o--o{ BUDGET_LIMIT : "обмежується"
